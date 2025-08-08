@@ -6,16 +6,16 @@ import 'screens/add_event_screen.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
-  runApp(const BookEventApp());
+  runApp(const EventUAS());
 }
 
-class BookEventApp extends StatelessWidget {
-  const BookEventApp({super.key});
+class EventUAS extends StatelessWidget {
+  const EventUAS({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BookEvent',
+      title: 'Event UAS',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
