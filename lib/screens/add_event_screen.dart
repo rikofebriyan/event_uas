@@ -22,47 +22,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
 
-  // Helper untuk membangun TextField
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    TextInputType keyboardType = TextInputType.text,
-    bool readOnly = false,
-    VoidCallback? onTap,
-  }) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(labelText: label),
-      keyboardType: keyboardType,
-      readOnly: readOnly,
-      onTap: onTap,
-    );
-  }
-
-  Future<void> _pickDate(TextEditingController controller) async {
-    final DateTime? date = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2100),
-    );
-    if (date != null) {
-      controller.text = date.toIso8601String().split('T')[0]; // YYYY-MM-DD
-    }
-  }
-
-  Future<void> _pickTime(TextEditingController controller) async {
-    final TimeOfDay? time = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-    if (time != null) {
-      final formattedTime =
-          "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}:00";
-      controller.text = formattedTime; // HH:MM:SS
-    }
-  }
-
   Future<void> _submitForm() async {
     final result = await ApiService.createEvent(
       token: widget.token,
@@ -96,7 +55,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+          colors: [Color(0xFF2575FC), Color(0xFF6A11CB)],
         ),
       ),
       child: Scaffold(

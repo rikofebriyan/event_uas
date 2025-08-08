@@ -59,26 +59,42 @@ class ApiService {
     }
   }
 
-  // GET EVENTS
-  static Future<List<dynamic>> getEvents(String token) async {
-    final url = Uri.parse('$baseUrl/events');
+  // GET EVENTS DENGAN PARAM OPSIONAL
+  static Future<List> getEvents(
+    String token, {
+    String? search,
+    String? category,
+    String? date,
+  }) async {
+    final queryParams = {
+      if (search != null && search.isNotEmpty) 'search': search,
+      if (category != null && category.isNotEmpty) 'category': category,
+      if (date != null && date.isNotEmpty) 'date': date,
+    };
+
+    final uri = Uri.http('103.160.63.165', '/api/events', queryParams);
 
     final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
+      uri,
+      headers: {'Authorization': 'Bearer $token'},
     );
 
-    print('📡 STATUS CODE: ${response.statusCode}');
-    print('📥 RESPONSE BODY: ${response.body}');
+    print("📡 GET URL: $uri");
+    print("📥 STATUS: ${response.statusCode}");
+    print("📥 BODY: ${response.body}");
 
     if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      return json['data']['events']; // 👈 ambil list dari dalam 'data'
+      final decoded = jsonDecode(response.body);
+
+      // Ambil dari path data.events
+      if (decoded['success'] == true &&
+          decoded['data'] != null &&
+          decoded['data']['events'] != null) {
+        return decoded['data']['events'] as List;
+      }
+      return [];
     } else {
-      throw Exception('Gagal mengambil data event');
+      return [];
     }
   }
 
