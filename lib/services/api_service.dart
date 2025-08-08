@@ -83,7 +83,7 @@ class ApiService {
   }
 
   // CREATE EVENT (UPDATED ✅)
-  static Future<bool> createEvent({
+  static Future<Map<String, dynamic>> createEvent({
     required String token,
     required String title,
     required String description,
@@ -102,6 +102,7 @@ class ApiService {
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
       body: jsonEncode({
         "title": title,
@@ -119,6 +120,19 @@ class ApiService {
     print('📡 STATUS CODE: ${response.statusCode}');
     print('📥 RESPONSE BODY: ${response.body}');
 
-    return response.statusCode == 201;
+    if (response.statusCode == 201) {
+      return {'success': true, 'message': 'Event berhasil ditambahkan'};
+    } else {
+      try {
+        final data = jsonDecode(response.body);
+        final message = data['message'] ?? 'Terjadi kesalahan';
+        return {'success': false, 'message': message};
+      } catch (e) {
+        return {
+          'success': false,
+          'message': 'Terjadi kesalahan tidak diketahui',
+        };
+      }
+    }
   }
 }
