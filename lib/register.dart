@@ -48,6 +48,19 @@ class _RegisterPageState extends State<RegisterPage> {
           const SnackBar(content: Text('Registration successful!')),
         );
         Navigator.pop(context);
+      } else if (response.statusCode == 422) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final Map<String, dynamic> errors = data['errors'];
+
+        String errorMessages = '';
+        errors.forEach((key, value) {
+          // Ambil semua pesan error dari setiap field
+          errorMessages += '$key: ${value.join(", ")}\n';
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Validation failed:\n$errorMessages')),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Registration failed: ${response.body}')),

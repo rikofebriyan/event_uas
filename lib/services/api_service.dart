@@ -34,26 +34,28 @@ class ApiService {
   }
 
   // REGISTER USER
-  static Future<String?> registerUser(Map<String, dynamic> userData) async {
+  static Future<Map<String, dynamic>> registerUser(
+    Map<String, dynamic> userData,
+  ) async {
     try {
       final uri = Uri.parse('$baseUrl/register');
-      final request = http.Request('POST', uri)
-        ..headers.addAll({
+      final response = await http.post(
+        uri,
+        headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-        })
-        ..body = jsonEncode(userData);
+        },
+        body: jsonEncode(userData),
+      );
 
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
+      final decoded = jsonDecode(response.body);
 
-      if (response.statusCode == 201) {
-        return jsonDecode(response.body)['data']['token'];
-      } else {
-        return null;
-      }
-    } catch (_) {
-      return null;
+      return {'status': response.statusCode, 'data': decoded};
+    } catch (e) {
+      return {
+        'status': 500,
+        'data': {'message': 'Gagal menghubungkan ke server.'},
+      };
     }
   }
 
