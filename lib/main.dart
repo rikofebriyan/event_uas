@@ -3,6 +3,7 @@ import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/add_event_screen.dart';
+import 'screens/splash_screen.dart';
 
 void main() {
   runApp(const BookEventApp());
@@ -21,8 +22,9 @@ class BookEventApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Poppins',
       ),
-      initialRoute: '/',
+      initialRoute: '/splash',
       routes: {
+        '/splash': (context) => const SplashScreen(),
         '/': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
       },
