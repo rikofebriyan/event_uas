@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'screens/login_screen.dart';
-import 'screens/register_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/add_event_screen.dart';
-import 'screens/splash_screen.dart';
+import 'screens/login.dart';
+import 'screens/register.dart';
+import 'screens/home.dart';
+import 'screens/add_event.dart';
+import 'screens/splash.dart';
 
 void main() {
   runApp(const EventUAS());

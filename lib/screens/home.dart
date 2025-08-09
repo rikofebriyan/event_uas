@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../services/api_service.dart';
-import 'add_event_screen.dart';
+import 'add_event.dart';
 
 class HomeScreen extends StatefulWidget {
   final String token;
